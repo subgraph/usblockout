@@ -1,4 +1,4 @@
-Source: subgraph-usblockout
+Source: usblockout
 Section: security
 Priority: optional
 Maintainer: Subgraph <info@subgraph.com>
@@ -9,7 +9,7 @@ Vcs-Git: https://github.com/subgraph/usblockout.git
 XS-Go-Import-Path: github.com/subgraph/usblockout
 Vcs-Browser: https://github.com/subgraph/usblockout
 
-Package: subgraph-usblockout
+Package: usblockout
 Architecture: amd64
 Depends: dbus, ${shlibs:Depends}, ${misc:Depends}
 Description: usblockout grsecurity session usb lockout

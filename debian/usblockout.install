@@ -1,0 +1,2 @@
+debian/usblockout/usr/bin/usblockoutd /usr/sbin/
+sources/* ./
