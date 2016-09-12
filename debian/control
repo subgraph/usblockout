@@ -1,0 +1,18 @@
+Source: subgraph-usblockout
+Section: security
+Priority: optional
+Maintainer: Subgraph <info@subgraph.com>
+Build-Depends: debhelper (>= 9), libacl1-dev, golang-go (>= 1.6), dh-golang, dh-systemd, dbus
+Standards-Version: 3.9.6
+Homepage: https://github.com/subgraph/usblockout
+Vcs-Git: https://github.com/subgraph/usblockout.git
+XS-Go-Import-Path: github.com/subgraph/usblockout
+Vcs-Browser: https://github.com/subgraph/usblockout
+
+Package: subgraph-usblockout
+Architecture: amd64
+Depends: dbus, ${shlibs:Depends}, ${misc:Depends}
+Description: usblockout grsecurity session usb lockout
+ USBLockout monitors the user session and enabled Grsecurity
+ Deny new USB when it is locked or closed.
+

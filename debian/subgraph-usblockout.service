@@ -1,0 +1,16 @@
+[Unit]
+Description=Launches USBLockout daemon
+Wants=network.target filesystem.target
+After=network.target filesystem.target
+
+[Service]
+ExecStart=/usr/sbin/usblockoutd
+ExecStop=/bin/kill -INT ${MAINPID}
+Restart=on-failure
+StandardOutput=syslog
+StandardError=syslog
+SyslogFacility=daemon
+SyslogIdentifier=usblockout
+
+[Install]
+WantedBy=graphical.target
