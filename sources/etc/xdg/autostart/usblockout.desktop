@@ -1,0 +1,6 @@
+[Desktop Entry]
+Type=Application
+Name=USBLockout
+Exec=usblockout
+OnlyShowIn=GNOME;
+AutostartCondition=GSettings org.gnome.desktop.background show-desktop-icons
