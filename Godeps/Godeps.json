@@ -1,0 +1,25 @@
+{
+	"ImportPath": "github.com/subgraph/usblockout",
+	"GoVersion": "go1.7",
+	"GodepVersion": "v74",
+	"Packages": [
+		"./..."
+	],
+	"Deps": [
+		{
+			"ImportPath": "github.com/godbus/dbus",
+			"Comment": "v4.0.0-10-g9998ce8",
+			"Rev": "9998ce8520caaa4a287fa5122ecb5d1ca1aeaede"
+		},
+		{
+			"ImportPath": "github.com/godbus/dbus/introspect",
+			"Comment": "v4.0.0-10-g9998ce8",
+			"Rev": "9998ce8520caaa4a287fa5122ecb5d1ca1aeaede"
+		},
+		{
+			"ImportPath": "github.com/op/go-logging",
+			"Comment": "v1-7-g970db52",
+			"Rev": "970db520ece77730c7e4724c61121037378659d9"
+		}
+	]
+}
