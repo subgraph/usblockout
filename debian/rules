@@ -4,14 +4,14 @@
 
 export DH_OPTIONS
 
-export DH_GOPKG := github.com/subgraph/oz
+export DH_GOPKG := github.com/subgraph/usblockout
 
 %:
 	dh $@ --buildsystem=golang --with=golang,systemd
 
 override_dh_auto_install:
 	dh_auto_install
-	rm -rf $(CURDIR)/debian/oz-daemon/usr/share/gocode
+	rm -rf $(CURDIR)/debian/usblockout/usr/share/gocode
 
 override_dh_auto_test:
 	@echo skipped auto test
