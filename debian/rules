@@ -11,6 +11,8 @@ export DH_GOPKG := github.com/subgraph/usblockout
 
 override_dh_auto_install:
 	dh_auto_install
+	mkdir -p $(CURDIR)/debian/usblockout/usr/sbin
+	mv $(CURDIR)/debian/usblockout/usr/bin/usblockoutd $(CURDIR)/debian/usblockout/usr/sbin
 	rm -rf $(CURDIR)/debian/usblockout/usr/share/gocode
 
 override_dh_auto_test:
