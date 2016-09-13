@@ -1,5 +1,10 @@
 # Session USB Lockout
 
+You're in a place that is relatively safe, say your local hackerspace.
+You need to leave your computer out of sight for a small amount of time,
+the space is safe enough that you are not worried about it being stolen,
+but not enough that someone couldn't attempt a quick drive-by usb attack.
+
 This program provides a way to toggle Grsecurity Deny New USB feature with the state of a user session.
 That is, it will automatically enable the feature when the screen is locked or the session exits, and vice versa.
 
