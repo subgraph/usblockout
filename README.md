@@ -1,7 +1,7 @@
 # Session USB Lockout
 
 This program provides a way to toggle Grsecurity Deny New USB feature with the state of a user session.
-That is, it will automatically enable the feature when the screen is locked or the session exists, and vice versa.
+That is, it will automatically enable the feature when the screen is locked or the session exits, and vice versa.
 
 ## Caveats
 
