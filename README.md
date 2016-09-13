@@ -19,7 +19,7 @@ The client utility also allows the user to enable or disable the feature manuall
 
 **Beware! If you use some sort of USB device (ex: a yubikey) for pam logins, login will be entierly broken!**
 One workaround for this is to plug in the usb device at boot (before the deamon launches), or before switching to a different tty.
-This like Smartcard, which have readers that are always plugged in should work as expected.
+Devices like smartcards, which have readers that are always plugged in should work as expected.
 
 This, of course only works if Grsecurity sysctl are enabled and is not locked.
 
