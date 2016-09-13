@@ -15,3 +15,5 @@ Provided in this repository is a debian branch which is used to build a deb pack
 	cd usblockout
 	gbp buildpackage -us -uc
 	dpkg -i /tmp/subgraph-usblockout_#VERSION#.deb
+
+You will need to either log out and log back in, or launch `usblockout` (for example via alt-f2) after the install.
