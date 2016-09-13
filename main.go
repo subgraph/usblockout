@@ -2,7 +2,7 @@ package main
 
 import (
 	"flag"
-	_ "fmt"
+	"fmt"
 	"os"
 	"os/signal"
 	"syscall"
@@ -28,13 +28,6 @@ type USBLockout struct {
 	dbus_sys   dbus.BusObject
 	dconn_sess *dbus.Conn
 	logBackend logging.LeveledBackend
-}
-
-var flagdebug bool
-
-func init() {
-	flag.BoolVar(&flagdebug, "debug", false, "enable debug logging")
-	flag.Parse()
 }
 
 func (ul *USBLockout) lock() error {
@@ -92,6 +85,15 @@ func (ul *USBLockout) runDaemon() {
 	}
 }
 
+var flagdebug, enable, disable bool
+
+func init() {
+	flag.BoolVar(&enable, "enable", false, "manually enable the usb deny feature")
+	flag.BoolVar(&disable, "disable", false, "manually disable the usb deny feature")
+	flag.BoolVar(&flagdebug, "debug", false, "enable debug logging")
+	flag.Parse()
+}
+
 func main() {
 	var err error
 	ul := &USBLockout{}
@@ -123,15 +125,28 @@ func main() {
 		os.Exit(1)
 	}
 
-	log.Notice("USB Lockout client enabled")
-	if res := ul.dbus_sys.Call(DbusObjectSetLocked, 0, false); res.Err != nil {
-		log.Fatal(res.Err)
-		os.Exit(1)
+	switch {
+	case enable == true:
+		fmt.Println("Enabling USB Deny")
+		ul.lock()
+		os.Exit(0)
+		break
+	case disable == true:
+		fmt.Println("Disabling USB Deny")
+		ul.unlock()
+		os.Exit(0)
+		break
+	default:
+		log.Notice("USB Lockout client enabled")
+		if res := ul.dbus_sys.Call(DbusObjectSetLocked, 0, false); res.Err != nil {
+			log.Fatal(res.Err)
+			os.Exit(1)
+		}
+
+		sigs := make(chan os.Signal)
+		signal.Notify(sigs, syscall.SIGTERM, os.Interrupt)
+		go ul.processSignals(sigs)
+
+		ul.runDaemon()
 	}
-
-	sigs := make(chan os.Signal)
-	signal.Notify(sigs, syscall.SIGTERM, os.Interrupt)
-	go ul.processSignals(sigs)
-
-	ul.runDaemon()
 }

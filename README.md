@@ -8,6 +8,10 @@ but not enough that someone couldn't attempt a quick drive-by usb attack.
 This program provides a way to toggle Grsecurity Deny New USB feature with the state of a user session.
 That is, it will automatically enable the feature when the screen is locked or the session exits, and vice versa.
 
+The client utility also allows the user to enable or disable the feature manually by calling:
+
+	usblockout --[enable|disable]
+
 ## Caveats
 
 **Beware! If you use some sort of USB device (ex: a yubikey) for pam logins, login will be entierly broken!**
