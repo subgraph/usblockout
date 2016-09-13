@@ -1,3 +1,10 @@
+usblockout (0.0.2-1) unstable; urgency=low
+
+  * Various cleanups.
+  * Client can now be called to toggle the feature manually.
+
+ -- Subgraph <info@subgraph.com>  Tue, 13 Sep 2016 05:30:00 +0000
+
 usblockout (0.0.1-1) unstable; urgency=low
 
   * Initial Release.
