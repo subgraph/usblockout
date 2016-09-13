@@ -6,13 +6,14 @@ import (
 	"runtime"
 	"sync"
 
-	mlog "github.com/subgraph/usblockout/logging"
+	"github.com/subgraph/usblockout/config"
 	"github.com/subgraph/usblockout/daemon/sysctl"
+	mlog "github.com/subgraph/usblockout/logging"
 
 	"github.com/op/go-logging"
 )
 
-var log = logging.MustGetLogger("usblockout")
+var log = logging.MustGetLogger(config.AppName)
 
 type USBLockoutd struct {
 	dbus       *dbusServer
@@ -39,25 +40,26 @@ func (ul *USBLockoutd) setLocked(flag bool) error {
 	}
 
 	if str, err := sysctl.Get(KERN_GRSEC_DENY_NEW_USB); err != nil {
-		log.Warningf("%s: %s > %+v", "KERN_GRSEC_DENY_NEW_USB", str, err)
+		log.Warningf("%s: %s > %+v", KERN_GRSEC_DENY_NEW_USB, str, err)
 	} else {
-		log.Noticef("%s: %s", "KERN_GRSEC_DENY_NEW_USB", str)
+		log.Noticef("%s: %s", KERN_GRSEC_DENY_NEW_USB, str)
 	}
 
 	return nil
 }
 
 var flagdebug bool
+
 func init() {
 	flag.BoolVar(&flagdebug, "debug", false, "enable debug logging")
 	flag.Parse()
 }
 
 func Main() {
-	logBackend := mlog.SetupLoggerBackend(logging.INFO, "usblockout")
+	logBackend := mlog.SetupLoggerBackend(logging.INFO, config.AppName)
 	log.SetBackend(logBackend)
 	if flagdebug {
-		logBackend.SetLevel(logging.DEBUG, "usblockout")
+		logBackend.SetLevel(logging.DEBUG, config.AppName)
 		log.Debug("Debug logging enabled")
 	}
 

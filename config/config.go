@@ -17,6 +17,9 @@ const IntrospectXml = `
 	introspect.IntrospectDataString +
 	`</node>`
 
-const BusName = "com.subgraph.USBLockout"
-const ObjectPath = "/com/subgraph/USBLockout"
-const InterfaceName = "com.subgraph.USBLockout"
+const (
+	BusName       = "com.subgraph.USBLockout"
+	ObjectPath    = "/com/subgraph/USBLockout"
+	InterfaceName = "com.subgraph.USBLockout"
+	AppName       = "usblockout"
+)

@@ -14,10 +14,14 @@ import (
 	"github.com/op/go-logging"
 )
 
-var log = logging.MustGetLogger("usblockout")
+var log = logging.MustGetLogger(config.AppName)
 
-var DbusObjectSetLocked = config.BusName+".SetLocked"
-var DbusObjectIsRunning = config.BusName+".IsRunning"
+const (
+	DbusObjectScreensaverActiveChange = "type='signal',path='/org/gnome/ScreenSaver',interface='org.gnome.ScreenSaver',member='ActiveChanged'"
+)
+
+var DbusObjectSetLocked = config.BusName + ".SetLocked"
+var DbusObjectIsRunning = config.BusName + ".IsRunning"
 
 type USBLockout struct {
 	dconn_sys  *dbus.Conn
@@ -26,8 +30,8 @@ type USBLockout struct {
 	logBackend logging.LeveledBackend
 }
 
-
 var flagdebug bool
+
 func init() {
 	flag.BoolVar(&flagdebug, "debug", false, "enable debug logging")
 	flag.Parse()
@@ -91,10 +95,10 @@ func (ul *USBLockout) runDaemon() {
 func main() {
 	var err error
 	ul := &USBLockout{}
-	ul.logBackend = mlog.SetupLoggerBackend(logging.INFO, "usblockout")
+	ul.logBackend = mlog.SetupLoggerBackend(logging.INFO, config.AppName)
 	log.SetBackend(ul.logBackend)
 	if flagdebug {
-		ul.logBackend.SetLevel(logging.DEBUG, "usblockout")
+		ul.logBackend.SetLevel(logging.DEBUG, config.AppName)
 		log.Debug("Debug logging enabled")
 	}
 
@@ -110,12 +114,11 @@ func main() {
 		os.Exit(1)
 	}
 
-	ul.dconn_sess.BusObject().Call("org.freedesktop.DBus.AddMatch", 0,
-		"type='signal',path='/org/gnome/ScreenSaver',interface='org.gnome.ScreenSaver',member='ActiveChanged'")
+	ul.dconn_sess.BusObject().Call("org.freedesktop.DBus.AddMatch", 0, DbusObjectScreensaverActiveChange)
 
 	ul.dbus_sys = ul.dconn_sys.Object(config.BusName, config.ObjectPath)
 
-	if res := ul.dbus_sys.Call(DbusObjectIsRunning, 0); (res.Err != nil || res.Body[0] == false) {
+	if res := ul.dbus_sys.Call(DbusObjectIsRunning, 0); res.Err != nil || res.Body[0] == false {
 		log.Error("USB Lockout daemon is not running or unavailable")
 		os.Exit(1)
 	}

@@ -8,7 +8,6 @@ import (
 	"github.com/subgraph/usblockout/config"
 
 	"github.com/godbus/dbus"
-	//_ "github.com/op/go-logging"
 )
 
 type dbusServer struct {
