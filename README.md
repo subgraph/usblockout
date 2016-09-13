@@ -7,6 +7,8 @@ That is, it will automatically enable the feature when the screen is locked or t
 
 **Beware!** If you use some sort of USB device (ex: a yubikey) for pam logins, login will be entierly broken!
 
+This, of course only works if Grsecurity sysctl are enabled and is not locked.
+
 ## Building & Packaging
 
 Provided in this repository is a debian branch which is used to build a deb package from git tags:
