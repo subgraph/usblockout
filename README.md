@@ -7,7 +7,7 @@ That is, it will automatically enable the feature when the screen is locked or t
 
 **Beware!** If you use some sort of USB device (ex: a yubikey) for pam logins, login will be entierly broken!
 
-## Building
+## Building & Packaging
 
 Provided in this repository is a debian branch which is used to build a deb package from git tags:
 
@@ -17,3 +17,5 @@ Provided in this repository is a debian branch which is used to build a deb pack
 	dpkg -i /tmp/subgraph-usblockout_#VERSION#.deb
 
 You will need to either log out and log back in, or launch `usblockout` (for example via alt-f2) after the install.
+
+To run without without the xdg autostart and systemd service (when you are debugging or for development) you will want to run the daemon in one terminal with `sudo ./usblockoutd --debug` and the client in another with `./usblockout --debug`.
