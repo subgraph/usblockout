@@ -6,6 +6,7 @@ That is, it will automatically enable the feature when the screen is locked or t
 ## Caveats
 
 **Beware! If you use some sort of USB device (ex: a yubikey) for pam logins, login will be entierly broken!**
+One workaround for this is to plug in the usb device at boot (before the deamon launches), or before switching to a different tty.
 
 This, of course only works if Grsecurity sysctl are enabled and is not locked.
 
