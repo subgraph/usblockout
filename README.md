@@ -8,6 +8,9 @@ but not enough that someone couldn't attempt a quick drive-by usb attack.
 This program provides a way to toggle Grsecurity Deny New USB feature with the state of a user session.
 That is, it will automatically enable the feature when the screen is locked or the session exits, and vice versa.
 
+It consists of a privileged daemon that exposes itself on the dbus system bus;
+and a client daemon which runs in the user session via xdg-autostart, and relays the session screen lock events on the system bus.
+
 The client utility also allows the user to enable or disable the feature manually by calling:
 
 	usblockout --[enable|disable]
@@ -16,6 +19,7 @@ The client utility also allows the user to enable or disable the feature manuall
 
 **Beware! If you use some sort of USB device (ex: a yubikey) for pam logins, login will be entierly broken!**
 One workaround for this is to plug in the usb device at boot (before the deamon launches), or before switching to a different tty.
+This like Smartcard, which have readers that are always plugged in should work as expected.
 
 This, of course only works if Grsecurity sysctl are enabled and is not locked.
 
