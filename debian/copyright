@@ -1,6 +1,6 @@
 Format: https://www.debian.org/doc/packaging-manuals/copyright-format/1.0/
-Upstream-Name: oz-daemon
-Source: <https://github.com/subgraph/oz>
+Upstream-Name: usblockout
+Source: <https://github.com/subgraph/usblockout>
 
 Files: *
 Copyright: 2016 Subgraph <info@subgraph.com>
