@@ -1,0 +1,2 @@
+usblockout binary: init.d-script-not-included-in-package
+usblockout binary: init.d-script-not-marked-as-conffile
