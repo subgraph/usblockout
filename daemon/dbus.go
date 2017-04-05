@@ -11,7 +11,7 @@ import (
 )
 
 type dbusServer struct {
-	ul   *USBLockoutd
+	ul   *usbLockoutd
 	conn *dbus.Conn
 }
 
@@ -53,7 +53,7 @@ func newDbusServer() (*dbusServer, error) {
 func (ds *dbusServer) Introspect(msg dbus.Message) (string, *dbus.Error) {
 	path := string(msg.Headers[dbus.FieldPath].Value().(dbus.ObjectPath))
 	if path == config.ObjectPath {
-		return config.IntrospectXml, nil
+		return config.IntrospectXML, nil
 	}
 	parts := strings.Split(config.ObjectPath, "/")
 	current := "/"

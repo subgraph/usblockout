@@ -23,6 +23,7 @@ func isTerminal(fd int) bool {
 	return err == 0
 }
 
+// SetupLoggerBackend initializes the logging backend
 func SetupLoggerBackend(level logging.Level, name string) logging.LeveledBackend {
 	format := logFormat
 	if isTerminal(int(os.Stderr.Fd())) {

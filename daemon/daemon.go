@@ -15,7 +15,7 @@ import (
 
 var log = logging.MustGetLogger(config.AppName)
 
-type USBLockoutd struct {
+type usbLockoutd struct {
 	dbus       *dbusServer
 	locked     bool
 	lock       sync.Mutex
@@ -23,10 +23,10 @@ type USBLockoutd struct {
 }
 
 const (
-	KERN_GRSEC_DENY_NEW_USB = "kernel.grsecurity.deny_new_usb"
+	kernSysctlGrsecDenyNewUSB = "kernel.grsecurity.deny_new_usb"
 )
 
-func (ul *USBLockoutd) setLocked(flag bool) error {
+func (ul *usbLockoutd) setLocked(flag bool) error {
 	ul.lock.Lock()
 	defer ul.lock.Unlock()
 	ul.locked = flag
@@ -34,15 +34,15 @@ func (ul *USBLockoutd) setLocked(flag bool) error {
 	if ul.locked {
 		ival = "1"
 	}
-	if err := sysctl.Set(KERN_GRSEC_DENY_NEW_USB, ival); err != nil {
+	if err := sysctl.Set(kernSysctlGrsecDenyNewUSB, ival); err != nil {
 		log.Errorf("Error setting grsec deny new usb: %+v", err)
 		return err
 	}
 
-	if str, err := sysctl.Get(KERN_GRSEC_DENY_NEW_USB); err != nil {
-		log.Warningf("%s: %s > %+v", KERN_GRSEC_DENY_NEW_USB, str, err)
+	if str, err := sysctl.Get(kernSysctlGrsecDenyNewUSB); err != nil {
+		log.Warningf("%s: %s > %+v", kernSysctlGrsecDenyNewUSB, str, err)
 	} else {
-		log.Noticef("%s: %s", KERN_GRSEC_DENY_NEW_USB, str)
+		log.Noticef("%s: %s", kernSysctlGrsecDenyNewUSB, str)
 	}
 
 	return nil
@@ -55,6 +55,7 @@ func init() {
 	flag.Parse()
 }
 
+// Main is the program loop exported for the cmd
 func Main() {
 	logBackend := mlog.SetupLoggerBackend(logging.INFO, config.AppName)
 	log.SetBackend(logBackend)
@@ -74,7 +75,7 @@ func Main() {
 		os.Exit(1)
 	}
 
-	ul := &USBLockoutd{
+	ul := &usbLockoutd{
 		dbus:   ds,
 		locked: false,
 	}

@@ -17,34 +17,34 @@ import (
 var log = logging.MustGetLogger(config.AppName)
 
 const (
-	DbusObjectScreensaverActiveChange = "type='signal',path='/org/gnome/ScreenSaver',interface='org.gnome.ScreenSaver',member='ActiveChanged'"
+	dbusObjectScreensaverActiveChange = "type='signal',path='/org/gnome/ScreenSaver',interface='org.gnome.ScreenSaver',member='ActiveChanged'"
 )
 
-var DbusObjectSetLocked = config.BusName + ".SetLocked"
-var DbusObjectIsRunning = config.BusName + ".IsRunning"
+var dbusObjectSetLocked = config.BusName + ".SetLocked"
+var dbusObjectIsRunning = config.BusName + ".IsRunning"
 
-type USBLockout struct {
-	dconn_sys  *dbus.Conn
-	dbus_sys   dbus.BusObject
-	dconn_sess *dbus.Conn
+type usbLockout struct {
+	dconnSys  *dbus.Conn
+	dbusSys   dbus.BusObject
+	dconnSess *dbus.Conn
 	logBackend logging.LeveledBackend
 }
 
-func (ul *USBLockout) lock() error {
-	if res := ul.dbus_sys.Call(DbusObjectSetLocked, 0, true); res.Err != nil {
+func (ul *usbLockout) lock() error {
+	if res := ul.dbusSys.Call(dbusObjectSetLocked, 0, true); res.Err != nil {
 		return res.Err
 	}
 	return nil
 }
 
-func (ul *USBLockout) unlock() error {
-	if res := ul.dbus_sys.Call(DbusObjectSetLocked, 0, false); res.Err != nil {
+func (ul *usbLockout) unlock() error {
+	if res := ul.dbusSys.Call(dbusObjectSetLocked, 0, false); res.Err != nil {
 		return res.Err
 	}
 	return nil
 }
 
-func (ul *USBLockout) processSignals(c <-chan os.Signal) {
+func (ul *usbLockout) processSignals(c <-chan os.Signal) {
 	for {
 		sig := <-c
 		log.Debugf("Recieved signal (%v)\n", sig)
@@ -56,10 +56,10 @@ func (ul *USBLockout) processSignals(c <-chan os.Signal) {
 	}
 }
 
-func (ul *USBLockout) runDaemon() {
+func (ul *usbLockout) runDaemon() {
 	for {
 		c := make(chan *dbus.Signal, 1)
-		ul.dconn_sess.Signal(c)
+		ul.dconnSess.Signal(c)
 		for v := range c {
 			state := v.Body[0].(bool)
 			switch state {
@@ -81,7 +81,7 @@ func (ul *USBLockout) runDaemon() {
 			}
 			break
 		}
-		ul.dconn_sess.RemoveSignal(c)
+		ul.dconnSess.RemoveSignal(c)
 	}
 }
 
@@ -96,7 +96,7 @@ func init() {
 
 func main() {
 	var err error
-	ul := &USBLockout{}
+	ul := &usbLockout{}
 	ul.logBackend = mlog.SetupLoggerBackend(logging.INFO, config.AppName)
 	log.SetBackend(ul.logBackend)
 	if flagdebug {
@@ -104,23 +104,23 @@ func main() {
 		log.Debug("Debug logging enabled")
 	}
 
-	ul.dconn_sys, err = dbus.SystemBus()
+	ul.dconnSys, err = dbus.SystemBus()
 	if err != nil {
 		log.Errorf("Failed to connect to system bus: %+v\n", err)
 		os.Exit(1)
 	}
 
-	ul.dconn_sess, err = dbus.SessionBus()
+	ul.dconnSess, err = dbus.SessionBus()
 	if err != nil {
 		log.Errorf("Failed to connect to session bus: %+v\n", err)
 		os.Exit(1)
 	}
 
-	ul.dconn_sess.BusObject().Call("org.freedesktop.DBus.AddMatch", 0, DbusObjectScreensaverActiveChange)
+	ul.dconnSess.BusObject().Call("org.freedesktop.DBus.AddMatch", 0, dbusObjectScreensaverActiveChange)
 
-	ul.dbus_sys = ul.dconn_sys.Object(config.BusName, config.ObjectPath)
+	ul.dbusSys = ul.dconnSys.Object(config.BusName, config.ObjectPath)
 
-	if res := ul.dbus_sys.Call(DbusObjectIsRunning, 0); res.Err != nil || res.Body[0] == false {
+	if res := ul.dbusSys.Call(dbusObjectIsRunning, 0); res.Err != nil || res.Body[0] == false {
 		log.Error("USB Lockout daemon is not running or unavailable")
 		os.Exit(1)
 	}
@@ -138,7 +138,7 @@ func main() {
 		break
 	default:
 		log.Notice("USB Lockout client enabled")
-		if res := ul.dbus_sys.Call(DbusObjectSetLocked, 0, false); res.Err != nil {
+		if res := ul.dbusSys.Call(dbusObjectSetLocked, 0, false); res.Err != nil {
 			log.Fatal(res.Err)
 			os.Exit(1)
 		}
