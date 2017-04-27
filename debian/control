@@ -2,7 +2,7 @@ Source: usblockout
 Section: admin
 Priority: optional
 Maintainer: Subgraph <info@subgraph.com>
-Build-Depends: debhelper (>= 10), libacl1-dev, golang-go (>= 1.6), dh-golang, dh-systemd, dbus
+Build-Depends: debhelper (>= 10), golang-go (>= 1.6), dh-golang, dh-systemd, dbus
 Standards-Version: 3.9.8
 Homepage: https://github.com/subgraph/usblockout
 Vcs-Git: https://github.com/subgraph/usblockout.git
