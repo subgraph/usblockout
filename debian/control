@@ -10,7 +10,7 @@ XS-Go-Import-Path: github.com/subgraph/usblockout
 Vcs-Browser: https://github.com/subgraph/usblockout
 
 Package: usblockout
-Architecture: amd64
+Architecture: any
 Depends: dbus, ${shlibs:Depends}, ${misc:Depends}
 Description: session usb lockout for grsecurity
  USBLockout monitors the user session and enabled Grsecurity
