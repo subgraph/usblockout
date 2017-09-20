@@ -1,3 +1,9 @@
+usblockout (0.0.3-1) unstable; urgency=low
+
+  * Moved from xdg to systemd user units for user daemon startup
+
+ -- Subgraph <info@subgraph.com>  Wed, 20 Sep 2016 16:40:00 +0000
+
 usblockout (0.0.2-1) unstable; urgency=low
 
   * Various cleanups.
