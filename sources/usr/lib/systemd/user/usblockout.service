@@ -1,9 +1,10 @@
 [Unit]
 Description=USBLockout User Daemon
 Requires=graphical-session.target
+After=graphical-session.target
 
 [Service]
 ExecStart=/usr/bin/usblockout
 
 [Install]
-WantedBy=graphical.target
+WantedBy=graphical-session.target
