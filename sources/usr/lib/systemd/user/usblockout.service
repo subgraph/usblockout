@@ -6,4 +6,4 @@ Requires=graphical-session.target
 ExecStart=/usr/bin/usblockout
 
 [Install]
-WantedBy=default.target
+WantedBy=graphical.target
